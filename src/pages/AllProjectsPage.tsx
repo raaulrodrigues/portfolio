@@ -1,16 +1,20 @@
+import { Link, useNavigate } from 'react-router-dom';
 import { projects } from '../data/projectsData';
 import { ArrowLeft, ArrowRight } from 'react-feather';
+import { useEffect } from 'react';
+import AOS from 'aos';
 
-interface AllProjectsProps {
-  onGoBack: () => void;
-  onShowDetail: (projectId: number) => void;
-}
+const AllProjectsPage = () => {
+  const navigate = useNavigate();
 
-const AllProjects = ({ onGoBack, onShowDetail }: AllProjectsProps) => {
+  useEffect(() => {
+    AOS.refresh();
+  }, []);
+
   return (
     <section id="all-projects" className="all-projects-page">
       <div className="container-wide">
-        <button onClick={onGoBack} className="btn-back">
+        <button onClick={() => navigate('/')} className="btn-back">
           <ArrowLeft size={20} /> Voltar
         </button>
         <h2>Todos os Projetos</h2>
@@ -24,9 +28,9 @@ const AllProjects = ({ onGoBack, onShowDetail }: AllProjectsProps) => {
                 <h3>{project.title}</h3>
                 <p>{project.shortDescription}</p>
                 <div className="links-projeto">
-                    <button onClick={() => onShowDetail(project.id)} className="btn-detalhes">
+                    <Link to={`/projeto/${project.id}`} className="btn-detalhes">
                       Detalhes <ArrowRight size={16}/>
-                    </button>
+                    </Link>
                 </div>
               </div>
             </div>
@@ -37,4 +41,4 @@ const AllProjects = ({ onGoBack, onShowDetail }: AllProjectsProps) => {
   );
 };
 
-export default AllProjects;
+export default AllProjectsPage;

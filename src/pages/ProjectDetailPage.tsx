@@ -1,16 +1,17 @@
+import { useParams, useNavigate } from 'react-router-dom';
 import type { Project } from '../data/projectsData';
+import { projects } from '../data/projectsData';
 import { GitHub, ExternalLink, ArrowLeft } from 'react-feather';
 
-interface ProjectDetailProps {
-  project: Project | null;
-  onGoBack: () => void;
-}
+const ProjectDetailPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const project: Project | undefined = projects.find(p => p.id === Number(id));
 
-const ProjectDetail = ({ project, onGoBack }: ProjectDetailProps) => {
   if (!project) {
     return (
       <section className="project-detail-page container-wide">
-         <button onClick={onGoBack} className="btn-back">
+         <button onClick={() => navigate('/projetos')} className="btn-back">
           <ArrowLeft size={20} /> Voltar
         </button>
         <p>Projeto não encontrado.</p>
@@ -20,7 +21,7 @@ const ProjectDetail = ({ project, onGoBack }: ProjectDetailProps) => {
 
   return (
     <section className="project-detail-page container-wide">
-      <button onClick={onGoBack} className="btn-back">
+      <button onClick={() => navigate('/projetos')} className="btn-back">
         <ArrowLeft size={20} /> Voltar aos Projetos
       </button>
 
@@ -55,4 +56,4 @@ const ProjectDetail = ({ project, onGoBack }: ProjectDetailProps) => {
   );
 };
 
-export default ProjectDetail;
+export default ProjectDetailPage;

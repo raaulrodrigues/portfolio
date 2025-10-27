@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Sun, Moon, Menu, X } from 'react-feather';
 
 interface NavbarProps {
@@ -6,10 +7,9 @@ interface NavbarProps {
   currentTheme: string;
   activeSection: string;
   showInternalLinks: boolean;
-  onLogoClick: () => void;
 }
 
-const Navbar = ({ toggleTheme, currentTheme, activeSection, showInternalLinks, onLogoClick }: NavbarProps) => {
+const Navbar = ({ toggleTheme, currentTheme, activeSection, showInternalLinks }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,57 +23,49 @@ const Navbar = ({ toggleTheme, currentTheme, activeSection, showInternalLinks, o
     };
   }, []);
 
-  const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, targetId?: string) => {
-    setIsOpen(false);
-    if (!showInternalLinks || targetId === '#home') {
-        event.preventDefault();
-        onLogoClick();
-    }
-  };
-
   return (
     <header className={isScrolled ? 'scrolled' : ''}>
       <div className="container">
-        <div className="logo" onClick={(e) => handleLinkClick(e as any)} style={{ cursor: 'pointer' }}>
+        <Link to="/" className="logo" onClick={() => setIsOpen(false)}>
           Raul Martins Rodrigues
-        </div>
+        </Link>
         
         <div className="nav-container">
           <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
             <li>
-              <a href="#home" className={showInternalLinks && activeSection === 'home' ? 'active' : ''} onClick={(e) => handleLinkClick(e, '#home')}>
+              <Link to="/" onClick={() => setIsOpen(false)}>
                 Início
-              </a>
+              </Link>
             </li>
             {showInternalLinks && (
               <>
                 <li>
-                  <a href="#sobre" className={activeSection === 'sobre' ? 'active' : ''} onClick={(e) => handleLinkClick(e, '#sobre')}>
+                  <a href="#sobre" onClick={() => setIsOpen(false)}>
                     Sobre
                   </a>
                 </li>
                 <li>
-                  <a href="#experiencia" className={activeSection === 'experiencia' ? 'active' : ''} onClick={(e) => handleLinkClick(e, '#experiencia')}>
+                  <a href="#experiencia" onClick={() => setIsOpen(false)}>
                     Experiência
                   </a>
                 </li>
                 <li>
-                  <a href="#habilidades" className={activeSection === 'habilidades' ? 'active' : ''} onClick={(e) => handleLinkClick(e, '#habilidades')}>
+                  <a href="#habilidades" onClick={() => setIsOpen(false)}>
                     Habilidades
                   </a>
                 </li>
                 <li>
-                  <a href="#cursos" className={activeSection === 'cursos' ? 'active' : ''} onClick={(e) => handleLinkClick(e, '#cursos')}>
+                  <a href="#cursos" onClick={() => setIsOpen(false)}>
                     Cursos
                   </a>
                 </li>
                 <li>
-                  <a href="#projetos" className={activeSection === 'projetos' ? 'active' : ''} onClick={(e) => handleLinkClick(e, '#projetos')}>
+                  <a href="#projetos" onClick={() => setIsOpen(false)}>
                     Projetos
                   </a>
                 </li>
                 <li>
-                  <a href="#contato" className={activeSection === 'contato' ? 'active' : ''} onClick={(e) => handleLinkClick(e, '#contato')}>
+                  <a href="#contato" onClick={() => setIsOpen(false)}>
                     Contato
                   </a>
                 </li>
@@ -81,7 +73,7 @@ const Navbar = ({ toggleTheme, currentTheme, activeSection, showInternalLinks, o
             )}
             {!showInternalLinks && (
                  <li>
-                   <a href="#home" onClick={(e) => handleLinkClick(e)}>Voltar para Home</a>
+                   <Link to="/" onClick={() => setIsOpen(false)}>Voltar para Home</Link>
                  </li>
             )}
           </ul>

@@ -1,21 +1,14 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Experience from './components/Experience';
-import Skills from './components/Skills';
-import Courses from './components/Courses';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
-import AllProjects from './components/AllProjects';
-import ProjectDetail from './components/ProjectDetail';
-import { projects } from './data/projectsData';
+import MainPage from './pages/MainPage'; 
+import AllProjectsPage from './pages/AllProjectsPage'; 
+import ProjectDetailPage from './pages/ProjectDetailPage'; 
+import ScrollToTop from './components/ScrollToTop'; 
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
-type Page = 'main' | 'allProjects' | 'projectDetail';
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -23,23 +16,17 @@ function App() {
     return savedTheme || 'dark';
   });
 
-  const [currentPage, setCurrentPage] = useState<Page>('main');
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [activeSection, setActiveSection] = useState('home');
+  const location = useLocation();
+  const isMainPage = location.pathname === '/';
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-    window.scrollTo(0, 0);
-  }, [theme, currentPage]);
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
-  };
-
-  const [activeSection, setActiveSection] = useState('home');
+  }, [theme]);
 
   useEffect(() => {
-    if (currentPage !== 'main') return;
+    if (!isMainPage) return;
 
     const handleScroll = () => {
       const sections = document.querySelectorAll<HTMLElement>('section[id]');
@@ -60,7 +47,7 @@ function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [currentPage]);
+  }, [isMainPage]);
 
   useEffect(() => {
     AOS.init({
@@ -68,22 +55,11 @@ function App() {
       once: true,
     });
     AOS.refresh();
-  }, [currentPage]);
+  }, []);
 
-  const showAllProjects = () => {
-      setSelectedProjectId(null);
-      setCurrentPage('allProjects');
-  }
-  const showMainPage = () => {
-      setSelectedProjectId(null);
-      setCurrentPage('main');
-  }
-  const showProjectDetail = (projectId: number) => {
-      setSelectedProjectId(projectId);
-      setCurrentPage('projectDetail');
-  }
-
-  const selectedProjectData = projects.find(p => p.id === selectedProjectId) || null;
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+  };
 
   return (
     <>
@@ -97,31 +73,20 @@ function App() {
         </div>
       </div>
 
+      <ScrollToTop />
+      
       <Navbar
         toggleTheme={toggleTheme}
         currentTheme={theme}
         activeSection={activeSection}
-        showInternalLinks={currentPage === 'main'}
-        onLogoClick={showMainPage}
+        showInternalLinks={isMainPage}
       />
 
-      {currentPage === 'main' && (
-        <main>
-          <Hero />
-          <About />
-          <Experience />
-          <Skills />
-          <Courses />
-          <Projects onShowAll={showAllProjects} onShowDetail={showProjectDetail} />
-          <Contact />
-        </main>
-      )}
-      {currentPage === 'allProjects' && (
-        <AllProjects onGoBack={showMainPage} onShowDetail={showProjectDetail} />
-      )}
-       {currentPage === 'projectDetail' && (
-        <ProjectDetail project={selectedProjectData} onGoBack={showMainPage} />
-      )}
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/projetos" element={<AllProjectsPage />} />
+        <Route path="/projeto/:id" element={<ProjectDetailPage />} />
+      </Routes>
 
       <Footer />
     </>

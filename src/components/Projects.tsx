@@ -1,12 +1,8 @@
+import { Link } from 'react-router-dom';
 import { projects } from '../data/projectsData';
 import { ArrowRight } from 'react-feather';
 
-interface ProjectsProps {
-  onShowAll: () => void;
-  onShowDetail: (projectId: number) => void;
-}
-
-const Projects = ({ onShowAll, onShowDetail }: ProjectsProps) => {
+const Projects = () => {
   const featuredProjects = projects.filter(p => p.featured);
 
   return (
@@ -29,9 +25,9 @@ const Projects = ({ onShowAll, onShowDetail }: ProjectsProps) => {
                   <h3>{project.title}</h3>
                   <p className="descricao-projeto">{project.description}</p>
                   <div className="links-projeto">
-                     <button onClick={() => onShowDetail(project.id)} className="btn btn-secondary btn-saiba-mais">
+                     <Link to={`/projeto/${project.id}`} className="btn btn-secondary btn-saiba-mais">
                        Saiba mais <ArrowRight size={16}/>
-                     </button>
+                     </Link>
                   </div>
                 </div>
                 <div className="imagem-container-projeto imagem-container-stacked">
@@ -43,9 +39,9 @@ const Projects = ({ onShowAll, onShowDetail }: ProjectsProps) => {
         </div>
 
         <div className="ver-mais-container">
-          <button onClick={onShowAll} className="btn btn-secondary ver-mais-btn">
+          <Link to="/projetos" className="btn btn-secondary ver-mais-btn">
             Veja mais
-          </button>
+          </Link>
         </div>
 
       </div>
