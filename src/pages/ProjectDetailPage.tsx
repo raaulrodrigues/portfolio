@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import type { Project } from '../data/projectsData';
 import { projects } from '../data/projectsData';
 import { GitHub, ExternalLink, ArrowLeft } from 'react-feather';
@@ -11,6 +12,9 @@ const ProjectDetailPage = () => {
   if (!project) {
     return (
       <section className="project-detail-page container-wide">
+         <Helmet>
+            <title>Projeto Não Encontrado | Raul Martins Rodrigues</title>
+         </Helmet>
          <button onClick={() => navigate('/projetos')} className="btn-back">
           <ArrowLeft size={20} /> Voltar
         </button>
@@ -21,6 +25,11 @@ const ProjectDetailPage = () => {
 
   return (
     <section className="project-detail-page container-wide">
+      <Helmet>
+        <title>{project.title} | Raul Martins Rodrigues</title>
+        <meta name="description" content={project.shortDescription} />
+      </Helmet>
+
       <button onClick={() => navigate('/projetos')} className="btn-back">
         <ArrowLeft size={20} /> Voltar aos Projetos
       </button>

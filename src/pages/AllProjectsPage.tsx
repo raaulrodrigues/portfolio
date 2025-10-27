@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { projects } from '../data/projectsData';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import { useEffect } from 'react';
@@ -13,6 +14,11 @@ const AllProjectsPage = () => {
 
   return (
     <section id="all-projects" className="all-projects-page">
+      <Helmet>
+        <title>Projetos | Raul Martins Rodrigues</title>
+        <meta name="description" content="Explore todos os projetos desenvolvidos por Raul Martins Rodrigues, incluindo aplicações web, ferramentas e mais." />
+      </Helmet>
+
       <div className="container-wide">
         <button onClick={() => navigate('/')} className="btn-back">
           <ArrowLeft size={20} /> Voltar
