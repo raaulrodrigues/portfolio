@@ -27,6 +27,30 @@ function App() {
     setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
 
+  const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll<HTMLElement>('section[id]');
+      let currentSection = 'home';
+
+      if (window.scrollY < 300) {
+        currentSection = 'home';
+      } else {
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop - 100;
+          if (window.scrollY >= sectionTop) {
+            currentSection = section.id;
+          }
+        });
+      }
+      setActiveSection(currentSection);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -36,7 +60,21 @@ function App() {
 
   return (
     <>
-      <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
+      <div className="gradient-bg">
+        <div className="gradients-container">
+          <div className="g1"></div>
+          <div className="g2"></div>
+          <div className="g3"></div>
+          <div className="g4"></div>
+          <div className="g5"></div>
+        </div>
+      </div>
+
+      <Navbar
+        toggleTheme={toggleTheme}
+        currentTheme={theme}
+        activeSection={activeSection}
+      />
 
       <main>
         <Hero />
