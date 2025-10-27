@@ -1,27 +1,83 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import type { Project } from '../data/projectsData';
-import { projects } from '../data/projectsData';
+import sanityClient from '../sanityClient';
 import { GitHub, ExternalLink, ArrowLeft } from 'react-feather';
 import styles from './ProjectDetailPage.module.css';
 
-const ProjectDetailPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const project: Project | undefined = projects.find(p => p.id === Number(id));
+interface SanityProjectFull {
+  _id: string;
+  title: string;
+  description: string;
+  shortDescription: string;
+  imageUrl: string;
+  tags: string[];
+  liveUrl?: string;
+  repoUrl: string;
+}
 
-  if (!project) {
+const ProjectDetailPage = () => {
+  const { id } = useParams<{ id: string }>(); 
+  const navigate = useNavigate();
+  const [project, setProject] = useState<SanityProjectFull | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!id) {
+      setError("ID do projeto não encontrado na URL.");
+      setLoading(false);
+      return;
+    }
+
+    const query = `*[_type == "project" && _id == $id][0] {
+      _id,
+      title,
+      description,
+      shortDescription,
+      imageUrl,
+      tags,
+      liveUrl,
+      repoUrl
+    }`;
+    const params = { id }; 
+
+    sanityClient.fetch(query, params)
+      .then((data: SanityProjectFull) => {
+        if (data) {
+          setProject(data);
+        } else {
+          setError("Projeto não encontrado.");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar detalhes do projeto:", err);
+        setError("Erro ao carregar o projeto.");
+        setLoading(false);
+      });
+  }, [id]); 
+
+  if (loading) {
+    return <section className={`${styles.page} container-wide`}><p>Carregando...</p></section>;
+  }
+
+  if (error) {
     return (
       <section className={`${styles.page} container-wide`}>
          <Helmet>
-            <title>Projeto Não Encontrado | Raul Martins Rodrigues</title>
+            <title>Erro | Raul Martins Rodrigues</title>
          </Helmet>
          <button onClick={() => navigate('/projetos')} className={styles.btnBack}>
           <ArrowLeft size={20} /> Voltar
         </button>
-        <p>Projeto não encontrado.</p>
+        <p>{error}</p>
       </section>
     );
+  }
+
+  if (!project) { 
+     return <section className={`${styles.page} container-wide`}><p>Projeto não encontrado.</p></section>;
   }
 
   return (
@@ -47,7 +103,7 @@ const ProjectDetailPage = () => {
 
         <h2>Tecnologias Utilizadas</h2>
         <div className={styles.detailTags}>
-          {project.tags.map(tag => <span key={tag}>{tag}</span>)}
+          {project.tags?.map(tag => <span key={tag}>{tag}</span>) ?? <p>Nenhuma tag informada.</p>}
         </div>
 
         <h2>Links</h2>
@@ -57,9 +113,11 @@ const ProjectDetailPage = () => {
               <ExternalLink size={18} /> Ver Online
             </a>
           )}
-          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
-            <GitHub size={18} /> Ver no GitHub
-          </a>
+          {project.repoUrl && (
+            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+              <GitHub size={18} /> Ver no GitHub
+            </a>
+          )}
         </div>
       </div>
     </section>

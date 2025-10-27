@@ -1,16 +1,44 @@
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { projects } from '../data/projectsData';
+import sanityClient from '../sanityClient';
 import { ArrowLeft, ArrowRight } from 'react-feather';
-import { useEffect } from 'react';
 import AOS from 'aos';
 import styles from './AllProjectsPage.module.css';
 
+interface SanityProjectShallow {
+  _id: string;
+  title: string;
+  shortDescription: string;
+  imageUrl: string;
+  order: number;
+}
+
 const AllProjectsPage = () => {
   const navigate = useNavigate();
+  const [projects, setProjects] = useState<SanityProjectShallow[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AOS.refresh();
+    AOS.refresh(); 
+
+    const query = `*[_type == "project"] | order(order asc) {
+      _id,
+      title,
+      shortDescription,
+      imageUrl,
+      order
+    }`;
+
+    sanityClient.fetch(query)
+      .then((data: SanityProjectShallow[]) => {
+        setProjects(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar todos os projetos:", error);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -25,24 +53,29 @@ const AllProjectsPage = () => {
           <ArrowLeft size={20} /> Voltar
         </button>
         <h2>Todos os Projetos</h2>
-        <div className={styles.grid}>
-          {projects.map((project, index) => (
-            <div className={styles.card} key={project.id} data-aos="fade-up" data-aos-delay={`${index * 100}`}>
-              <div className={styles.image}>
-                 <img src={project.imageUrl} alt={`Imagem do Projeto ${project.title}`} loading="lazy" />
-              </div>
-              <div className={styles.content}>
-                <h3>{project.title}</h3>
-                <p>{project.shortDescription}</p>
-                <div className={styles.links}>
-                    <Link to={`/projeto/${project.id}`} className={styles.btnDetalhes}>
-                      Detalhes <ArrowRight size={16}/>
-                    </Link>
+
+        {loading ? (
+          <p>Carregando projetos...</p>
+        ) : (
+          <div className={styles.grid}>
+            {projects.map((project, index) => (
+              <div className={styles.card} key={project._id} data-aos="fade-up" data-aos-delay={`${index * 100}`}>
+                <div className={styles.image}>
+                   <img src={project.imageUrl} alt={`Imagem do Projeto ${project.title}`} loading="lazy" />
+                </div>
+                <div className={styles.content}>
+                  <h3>{project.title}</h3>
+                  <p>{project.shortDescription}</p>
+                  <div className={styles.links}>
+                      <Link to={`/projeto/${project._id}`} className={styles.btnDetalhes}>
+                        Detalhes <ArrowRight size={16}/>
+                      </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

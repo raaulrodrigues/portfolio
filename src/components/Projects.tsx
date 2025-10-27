@@ -1,10 +1,50 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { projects } from '../data/projectsData';
 import { ArrowRight } from 'react-feather';
+import sanityClient from '../sanityClient';
 import styles from './Projects.module.css';
 
+interface SanityProject {
+  _id: string; 
+  title: string;
+  description: string; 
+  imageUrl: string;
+  order: number;
+}
+
 const Projects = () => {
-  const featuredProjects = projects.filter(p => p.featured);
+  const [featuredProjects, setFeaturedProjects] = useState<SanityProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const query = `*[_type == "project" && featured == true] | order(order asc) {
+      _id,
+      title,
+      description,
+      imageUrl,
+      order
+    }`;
+
+    sanityClient.fetch(query)
+      .then((data: SanityProject[]) => {
+        setFeaturedProjects(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar projetos:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+        <section id="projetos" className={styles.section}>
+            <div className="container-wide">
+                <p>Carregando projetos...</p>
+            </div>
+        </section>
+    );
+  }
 
   return (
     <section id="projetos" className={styles.section}>
@@ -18,7 +58,7 @@ const Projects = () => {
           {featuredProjects.map((project, index) => (
             <div
               className={styles.card}
-              key={project.id}
+              key={project._id} 
               style={{ '--card-index': index } as React.CSSProperties}
             >
               <div className={styles.content}>
@@ -26,7 +66,7 @@ const Projects = () => {
                   <h3>{project.title}</h3>
                   <p className={styles.descricao}>{project.description}</p>
                   <div className={styles.links}>
-                     <Link to={`/projeto/${project.id}`} className={`btn btn-primary ${styles.btnSaibaMais}`}>
+                     <Link to={`/projeto/${project._id}`} className={`btn btn-primary ${styles.btnSaibaMais}`}>
                        Saiba mais <ArrowRight size={16}/>
                      </Link>
                   </div>
@@ -44,7 +84,6 @@ const Projects = () => {
             Veja mais
           </Link>
         </div>
-
       </div>
     </section>
   );
