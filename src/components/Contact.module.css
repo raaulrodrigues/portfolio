@@ -1,8 +1,10 @@
-.contactSection p {
+.description { 
     font-size: 1.2rem;
-    margin-bottom: 3rem;
+    margin: 0 auto 3rem auto; 
     color: var(--cor-texto-secundario);
     transition: color 0.3s ease;
+    text-align: center; 
+    max-width: 600px; 
 }
 
 .wrapper {

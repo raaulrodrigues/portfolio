@@ -3,10 +3,12 @@ import styles from './Contact.module.css';
 
 const Contact = () => {
   return (
-    <section id="contato" data-aos="fade-up" className={styles.contactSection}>
+    <section id="contato" data-aos="fade-up"> 
       <div className="container">
         <h2>Entre em Contato</h2>
-        <p>Estou aberto a novas oportunidades e colaborações. Vamos conversar!</p>
+        <p className={styles.description}> 
+          Estou aberto a novas oportunidades e colaborações. Vamos conversar!
+        </p>
         <div className={styles.wrapper}>
           
           <a href="mailto:rm.rodrigues0307@gmail.com" target="_blank" rel="noopener noreferrer" className={styles.link} data-aos="fade-up" data-aos-delay="100">
