@@ -5,11 +5,10 @@ import { Sun, Moon, Menu, X } from 'react-feather';
 interface NavbarProps {
   toggleTheme: () => void;
   currentTheme: string;
-  activeSection: string;
   showInternalLinks: boolean;
 }
 
-const Navbar = ({ toggleTheme, currentTheme, activeSection, showInternalLinks }: NavbarProps) => {
+const Navbar = ({ toggleTheme, currentTheme, showInternalLinks }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,7 +25,12 @@ const Navbar = ({ toggleTheme, currentTheme, activeSection, showInternalLinks }:
   return (
     <header className={isScrolled ? 'scrolled' : ''}>
       <div className="container">
-        <Link to="/" className="logo" onClick={() => setIsOpen(false)}>
+        <Link 
+          to="/" 
+          className="logo" 
+          onClick={() => setIsOpen(false)}
+          aria-label="Raul Martins Rodrigues - Voltar para a página inicial"
+        >
           Raul Martins Rodrigues
         </Link>
         

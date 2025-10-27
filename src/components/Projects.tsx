@@ -25,7 +25,7 @@ const Projects = () => {
                   <h3>{project.title}</h3>
                   <p className="descricao-projeto">{project.description}</p>
                   <div className="links-projeto">
-                     <Link to={`/projeto/${project.id}`} className="btn btn-secondary btn-saiba-mais">
+                     <Link to={`/projeto/${project.id}`} className="btn btn-primary btn-saiba-mais">
                        Saiba mais <ArrowRight size={16}/>
                      </Link>
                   </div>
@@ -39,7 +39,7 @@ const Projects = () => {
         </div>
 
         <div className="ver-mais-container">
-          <Link to="/projetos" className="btn btn-secondary ver-mais-btn">
+          <Link to="/projetos" className="btn btn-primary ver-mais-btn">
             Veja mais
           </Link>
         </div>

@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import MainPage from './pages/MainPage'; 
-import AllProjectsPage from './pages/AllProjectsPage'; 
-import ProjectDetailPage from './pages/ProjectDetailPage'; 
-import ScrollToTop from './components/ScrollToTop'; 
+import MainPage from './pages/MainPage';
+import AllProjectsPage from './pages/AllProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
+import ScrollToTop from './components/ScrollToTop';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -16,7 +16,6 @@ function App() {
     return savedTheme || 'dark';
   });
 
-  const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
   const isMainPage = location.pathname === '/';
 
@@ -24,30 +23,6 @@ function App() {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
-
-  useEffect(() => {
-    if (!isMainPage) return;
-
-    const handleScroll = () => {
-      const sections = document.querySelectorAll<HTMLElement>('section[id]');
-      let currentSection = 'home';
-
-      if (window.scrollY < 300) {
-        currentSection = 'home';
-      } else {
-        sections.forEach((section) => {
-          const sectionTop = section.offsetTop - 100;
-          if (window.scrollY >= sectionTop) {
-            currentSection = section.id;
-          }
-        });
-      }
-      setActiveSection(currentSection);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isMainPage]);
 
   useEffect(() => {
     AOS.init({
@@ -78,7 +53,6 @@ function App() {
       <Navbar
         toggleTheme={toggleTheme}
         currentTheme={theme}
-        activeSection={activeSection}
         showInternalLinks={isMainPage}
       />
 

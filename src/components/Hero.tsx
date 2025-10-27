@@ -35,7 +35,7 @@ const Hero = () => {
           </div>
         </div>
         <div className="home-content-right" data-aos="fade-left" data-aos-delay="200">
-          <img src="/assets/images/perfil.jpg" alt="Foto de Perfil" className="foto-perfil" />
+          <img src="/assets/images/perfil.webp" alt="Foto de Perfil" className="foto-perfil" />
         </div>
       </div>
     </section>
