@@ -1,47 +1,53 @@
-import { GitHub, ExternalLink } from 'react-feather';
 import { projects } from '../data/projectsData';
+import { ArrowRight } from 'react-feather';
 
-const Projects = () => {
+interface ProjectsProps {
+  onShowAll: () => void;
+  onShowDetail: (projectId: number) => void;
+}
+
+const Projects = ({ onShowAll, onShowDetail }: ProjectsProps) => {
+  const featuredProjects = projects.filter(p => p.featured);
+
   return (
-    <section id="projetos">
-      <div className="container-wide sticky-container">
-        <div className="projetos-header" data-aos="fade-in">
-          <h2>Meus Projetos</h2>
-          <p className="projetos-descricao">Aqui estão alguns dos meus projetos mais recentes. Cada um deles reflete meu foco em soluções centradas no usuário e meu compromisso com a excelência.</p>
+    <section id="projetos" className="projects-stacked-section">
+      <div className="container-wide">
+        <div className="projetos-header">
+          <h2>Projetos em Destaque</h2>
+          <p className="projetos-descricao">Estes são alguns dos projetos que mais me orgulho, demonstrando minhas habilidades e paixão por desenvolvimento.</p>
         </div>
-        <div className="projetos-cards-wrapper">
-          <div className="projetos-container">
-            
-            {}
-            {projects.map((project) => (
-              <div className="projeto-card-novo" data-aos="fade-up" data-aos-delay={project.aosDelay} key={project.id}>
+
+        <div className="projects-stack">
+          {featuredProjects.map((project, index) => (
+            <div
+              className="project-card-stacked"
+              key={project.id}
+              style={{ '--card-index': index } as React.CSSProperties}
+            >
+              <div className="project-card-stacked-content">
                 <div className="texto-projeto">
                   <h3>{project.title}</h3>
                   <p className="descricao-projeto">{project.description}</p>
-                  <div className="tags-projeto">
-                    {project.tags.map(tag => <span key={tag}>{tag}</span>)}
-                  </div>
                   <div className="links-projeto">
-                    {}
-                    {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-projeto">
-                        Ver Projeto Online <ExternalLink size={16} />
-                      </a>
-                    )}
-                    <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="btn-projeto">
-                      Ver no GitHub <GitHub size={16} />
-                    </a>
+                     <button onClick={() => onShowDetail(project.id)} className="btn btn-secondary btn-saiba-mais">
+                       Saiba mais <ArrowRight size={16}/>
+                     </button>
                   </div>
                 </div>
-                <div className="imagem-container-projeto">
-                  {}
-                  <img src={project.imageUrl} alt={`Imagem do Projeto ${project.title}`} />
+                <div className="imagem-container-projeto imagem-container-stacked">
+                  <img src={project.imageUrl} alt={`Imagem do Projeto ${project.title}`} loading="lazy"/>
                 </div>
               </div>
-            ))}
-            
-          </div>
+            </div>
+          ))}
         </div>
+
+        <div className="ver-mais-container">
+          <button onClick={onShowAll} className="btn btn-secondary ver-mais-btn">
+            Veja mais
+          </button>
+        </div>
+
       </div>
     </section>
   );
