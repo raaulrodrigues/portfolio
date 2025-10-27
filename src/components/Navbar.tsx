@@ -6,10 +6,11 @@ import styles from './Navbar.module.css';
 interface NavbarProps {
   toggleTheme: () => void;
   currentTheme: string;
+  activeSection: string; 
   showInternalLinks: boolean;
 }
 
-const Navbar = ({ toggleTheme, currentTheme, showInternalLinks }: NavbarProps) => {
+const Navbar = ({ toggleTheme, currentTheme, activeSection, showInternalLinks }: NavbarProps) => { 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,6 +25,10 @@ const Navbar = ({ toggleTheme, currentTheme, showInternalLinks }: NavbarProps) =
   }, []);
 
   const headerClasses = `${styles.navbar} ${isScrolled ? styles.scrolled : ''}`;
+
+  const getLinkClass = (sectionId: string) => {
+    return activeSection === sectionId ? styles.active : '';
+  };
 
   return (
     <header className={headerClasses}>
@@ -40,39 +45,39 @@ const Navbar = ({ toggleTheme, currentTheme, showInternalLinks }: NavbarProps) =
         <div className={styles.navContainer}>
           <ul className={`${styles.navLinks} ${isOpen ? styles.open : ''}`}>
             <li>
-              <Link to="/" onClick={() => setIsOpen(false)}>
+              <Link to="/" onClick={() => setIsOpen(false)} className={getLinkClass('home')}> 
                 Início
               </Link>
             </li>
             {showInternalLinks && (
               <>
                 <li>
-                  <a href="#sobre" onClick={() => setIsOpen(false)}>
+                  <a href="#sobre" onClick={() => setIsOpen(false)} className={getLinkClass('sobre')}>
                     Sobre
                   </a>
                 </li>
                 <li>
-                  <a href="#experiencia" onClick={() => setIsOpen(false)}>
+                  <a href="#experiencia" onClick={() => setIsOpen(false)} className={getLinkClass('experiencia')}>
                     Experiência
                   </a>
                 </li>
                 <li>
-                  <a href="#habilidades" onClick={() => setIsOpen(false)}>
+                  <a href="#habilidades" onClick={() => setIsOpen(false)} className={getLinkClass('habilidades')}>
                     Habilidades
                   </a>
                 </li>
                 <li>
-                  <a href="#cursos" onClick={() => setIsOpen(false)}>
+                  <a href="#cursos" onClick={() => setIsOpen(false)} className={getLinkClass('cursos')}>
                     Cursos
                   </a>
                 </li>
                 <li>
-                  <a href="#projetos" onClick={() => setIsOpen(false)}>
+                  <a href="#projetos" onClick={() => setIsOpen(false)} className={getLinkClass('projetos')}>
                     Projetos
                   </a>
                 </li>
                 <li>
-                  <a href="#contato" onClick={() => setIsOpen(false)}>
+                  <a href="#contato" onClick={() => setIsOpen(false)} className={getLinkClass('contato')}>
                     Contato
                   </a>
                 </li>
