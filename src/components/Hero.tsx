@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import Typed from 'typed.js';
+import styles from './Hero.module.css';
 
 const Hero = () => {
   const el = useRef(null);
@@ -24,18 +25,18 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home">
-      <div className="container home-container">
-        <div className="home-content-left" data-aos="fade-right">
+    <section id="home" className={styles.heroSection}>
+      <div className={`container ${styles.homeContainer}`}>
+        <div className={styles.contentLeft} data-aos="fade-right">
           <h1>Raul Martins Rodrigues</h1>
-          <p>Eu sou <span className="maquina-escrever" ref={el}></span></p>
-          <div className="home-cta">
+          <p>Eu sou <span className={styles.maquinaEscrever} ref={el}></span></p>
+          <div className={styles.cta}>
             <a href="#projetos" className="btn btn-primary">Meus Projetos</a>
             <a href="#contato" className="btn btn-secondary">Contato</a>
           </div>
         </div>
-        <div className="home-content-right" data-aos="fade-left" data-aos-delay="200">
-          <img src="/assets/images/perfil.webp" alt="Foto de Perfil" className="foto-perfil" />
+        <div className={styles.contentRight} data-aos="fade-left" data-aos-delay="200">
+          <img src="/assets/images/perfil.webp" alt="Foto de Perfil" className={styles.fotoPerfil} />
         </div>
       </div>
     </section>

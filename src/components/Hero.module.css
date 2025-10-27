@@ -1,0 +1,99 @@
+.heroSection {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.homeContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+}
+.contentLeft {
+    flex: 1.5;
+}
+.contentRight {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cta {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.fotoPerfil {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 6px solid var(--cor-destaque);
+    object-fit: cover;
+    box-shadow: 0 0 50px rgba(139, 92, 246, 0.5);
+    transition: all 0.5s ease;
+}
+
+.fotoPerfil:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 0 70px rgba(139, 92, 246, 0.7);
+}
+
+.heroSection h1 {
+    font-size: 4rem;
+    line-height: 1.2;
+}
+
+.heroSection p {
+    font-size: 1.6rem;
+    color: var(--cor-texto-secundario);
+    margin-top: 1rem;
+    transition: color 0.3s ease;
+}
+
+.maquinaEscrever {
+    color: var(--cor-destaque);
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .fotoPerfil {
+        width: 220px;
+        height: 220px;
+    }
+    .heroSection h1 {
+        font-size: 3rem;
+    }
+    .heroSection p {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .heroSection {
+        text-align: center;
+        height: auto;
+        padding-top: 8rem;
+        padding-bottom: 4rem;
+    }
+    .homeContainer {
+        flex-direction: column-reverse;
+        justify-content: center;
+        gap: 2rem;
+    }
+    .cta {
+        justify-content: center;
+    }
+    .fotoPerfil {
+        width: 200px;
+        height: 200px;
+    }
+    .heroSection h1 {
+        font-size: 2.5rem;
+    }
+    .heroSection p {
+        font-size: 1.2rem;
+    }
+}

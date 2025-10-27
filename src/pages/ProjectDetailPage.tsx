@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import type { Project } from '../data/projectsData';
 import { projects } from '../data/projectsData';
 import { GitHub, ExternalLink, ArrowLeft } from 'react-feather';
+import styles from './ProjectDetailPage.module.css';
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -11,11 +12,11 @@ const ProjectDetailPage = () => {
 
   if (!project) {
     return (
-      <section className="project-detail-page container-wide">
+      <section className={`${styles.page} container-wide`}>
          <Helmet>
             <title>Projeto Não Encontrado | Raul Martins Rodrigues</title>
          </Helmet>
-         <button onClick={() => navigate('/projetos')} className="btn-back">
+         <button onClick={() => navigate('/projetos')} className={styles.btnBack}>
           <ArrowLeft size={20} /> Voltar
         </button>
         <p>Projeto não encontrado.</p>
@@ -24,33 +25,33 @@ const ProjectDetailPage = () => {
   }
 
   return (
-    <section className="project-detail-page container-wide">
+    <section className={`${styles.page} container-wide`}>
       <Helmet>
         <title>{project.title} | Raul Martins Rodrigues</title>
         <meta name="description" content={project.shortDescription} />
       </Helmet>
 
-      <button onClick={() => navigate('/projetos')} className="btn-back">
+      <button onClick={() => navigate('/projetos')} className={styles.btnBack}>
         <ArrowLeft size={20} /> Voltar aos Projetos
       </button>
 
       <h1>{project.title}</h1>
       
-      <div className="project-detail-image-container">
+      <div className={styles.imageContainer}>
          <img src={project.imageUrl} alt={`Imagem ${project.title}`} />
       </div>
 
-      <div className="project-detail-content">
+      <div className={styles.content}>
         <h2>Descrição</h2>
         <p>{project.description}</p>
 
         <h2>Tecnologias Utilizadas</h2>
-        <div className="tags-projeto detail-tags">
+        <div className={styles.detailTags}>
           {project.tags.map(tag => <span key={tag}>{tag}</span>)}
         </div>
 
         <h2>Links</h2>
-        <div className="links-projeto detail-links">
+        <div className={styles.detailLinks}>
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
               <ExternalLink size={18} /> Ver Online

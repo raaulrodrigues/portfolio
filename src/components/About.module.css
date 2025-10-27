@@ -1,0 +1,8 @@
+.aboutSection p {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--cor-texto-secundario);
+    font-size: 1.15rem;
+    transition: color 0.3s ease;
+}

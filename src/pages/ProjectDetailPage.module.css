@@ -1,0 +1,117 @@
+.page {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    min-height: 100vh;
+}
+
+.page h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.btnBack {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--cor-fundo-card);
+  color: var(--cor-texto-secundario);
+  border: 1px solid var(--cor-borda-sutil);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.btnBack:hover {
+  background: var(--cor-destaque);
+  color: var(--cor-texto);
+  border-color: var(--cor-destaque);
+}
+
+.imageContainer {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 3rem auto;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid var(--cor-borda-sutil);
+    background-color: var(--cor-fundo);
+}
+
+.imageContainer img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.content h2 {
+    font-size: 2rem;
+    text-align: left;
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--cor-destaque);
+    display: inline-block;
+}
+.content h2::after {
+    display: none;
+}
+
+
+.content p {
+    color: var(--cor-texto-secundario);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.detailTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.detailTags span {
+    background-color: var(--cor-fundo-card);
+    color: var(--cor-texto-secundario);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid var(--cor-borda-sutil);
+    transition: all 0.3s ease;
+}
+
+.detailTags span:hover {
+    border-color: var(--cor-destaque);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+}
+
+.detailLinks {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.detailLinks .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1rem;
+    padding: 0.8rem 2rem;
+}
+.detailLinks .btn svg {
+    width: 18px;
+    height: 18px;
+}

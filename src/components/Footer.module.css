@@ -1,0 +1,9 @@
+.footer {
+    text-align: center;
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--cor-borda-sutil);
+    color: var(--cor-texto-secundario);
+    background-color: color-mix(in srgb, var(--cor-fundo) 50%, transparent);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}

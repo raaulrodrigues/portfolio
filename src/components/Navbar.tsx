@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Sun, Moon, Menu, X } from 'react-feather';
+import styles from './Navbar.module.css';
 
 interface NavbarProps {
   toggleTheme: () => void;
@@ -22,20 +23,22 @@ const Navbar = ({ toggleTheme, currentTheme, showInternalLinks }: NavbarProps) =
     };
   }, []);
 
+  const headerClasses = `${styles.navbar} ${isScrolled ? styles.scrolled : ''}`;
+
   return (
-    <header className={isScrolled ? 'scrolled' : ''}>
-      <div className="container">
+    <header className={headerClasses}>
+      <div className={styles.navInnerContainer}> 
         <Link 
           to="/" 
-          className="logo" 
+          className={styles.logo}
           onClick={() => setIsOpen(false)}
           aria-label="Raul Martins Rodrigues - Voltar para a página inicial"
         >
           Raul Martins Rodrigues
         </Link>
         
-        <div className="nav-container">
-          <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+        <div className={styles.navContainer}>
+          <ul className={`${styles.navLinks} ${isOpen ? styles.open : ''}`}>
             <li>
               <Link to="/" onClick={() => setIsOpen(false)}>
                 Início
@@ -84,14 +87,14 @@ const Navbar = ({ toggleTheme, currentTheme, showInternalLinks }: NavbarProps) =
 
           <button
             onClick={toggleTheme}
-            className="theme-toggle-btn"
+            className={styles.themeToggleBtn}
             aria-label="Trocar tema"
           >
             {currentTheme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
           <button
-            className="menu-toggle"
+            className={styles.menuToggle}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Abrir menu"
           >
