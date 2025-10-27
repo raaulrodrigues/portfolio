@@ -196,7 +196,7 @@ header .logo {
 .btn-secondary {
     background-color: transparent;
     color: var(--cor-texto);
-    border: 1px solid var(--cor-texto-secundario);
+    border: 1px solid var(--cor-borda-sutil);
 }
 .btn-secondary:hover {
     background-color: var(--cor-fundo-card);
@@ -398,8 +398,6 @@ header .logo {
 
 #habilidades .habilidade-item:hover {
     transform: translateY(-5px);
-    background: var(--cor-destaque);
-    color: var(--cor-texto);
     border-color: var(--cor-destaque);
     box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
 }
@@ -919,9 +917,30 @@ footer {
   margin-top: auto;
   flex-wrap: wrap;
 }
-.project-card-simple-content .btn-projeto {
-    padding: 0.6rem 1rem;
+.project-card-simple-content .btn-detalhes {
+    padding: 0.6rem 1.2rem;
     font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    letter-spacing: 0.5px;
+    background-color: transparent;
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-borda-sutil);
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.project-card-simple-content .btn-detalhes:hover {
+    background-color: var(--cor-fundo-card);
+    border-color: var(--cor-destaque);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .projects-stacked-section {
@@ -1063,18 +1082,18 @@ footer {
     text-align: center;
     letter-spacing: 0.5px;
     background-color: transparent;
-    color: var(--cor-texto-secundario);
-    border: 1px solid var(--cor-texto-secundario);
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-borda-sutil);
     cursor: pointer;
     font-size: 0.9rem;
 }
 
 .project-card-stacked .btn-saiba-mais:hover {
-    background-color: var(--cor-fundo);
+    background-color: var(--cor-fundo-card);
     border-color: var(--cor-destaque);
-    color: var(--cor-destaque);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    color: var(--cor-texto);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -1261,18 +1280,19 @@ footer {
 
 .project-detail-image-container {
     width: 100%;
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto 3rem auto;
     border-radius: 15px;
     overflow: hidden;
     border: 1px solid var(--cor-borda-sutil);
+    background-color: var(--cor-fundo);
 }
 
 .project-detail-image-container img {
     display: block;
     width: 100%;
     height: auto;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .project-detail-content {
@@ -1315,6 +1335,13 @@ footer {
     font-size: 0.9rem;
     font-weight: 500;
     border: 1px solid var(--cor-borda-sutil);
+    transition: all 0.3s ease;
+}
+
+.detail-tags span:hover {
+    border-color: var(--cor-destaque);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
 }
 
 .detail-links {
