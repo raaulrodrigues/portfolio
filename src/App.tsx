@@ -1,5 +1,7 @@
+// src/App.tsx
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import MainPage from './pages/MainPage';
@@ -61,8 +63,6 @@ function App() {
             }
         }
 
-        console.log('Seção detectada:', currentSection, 'Scroll Y:', window.scrollY, 'Trigger Point:', viewportTriggerPoint);
-
         const validSections = ['home', 'sobre', 'experiencia', 'habilidades', 'cursos', 'projetos', 'contato'];
         if (validSections.includes(currentSection) && currentSection !== activeSection) {
             setActiveSection(currentSection);
@@ -116,11 +116,13 @@ function App() {
         showInternalLinks={isMainPage}
       />
 
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/projetos" element={<AllProjectsPage />} />
-        <Route path="/projeto/:id" element={<ProjectDetailPage />} />
-      </Routes>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/projetos" element={<AllProjectsPage />} />
+          <Route path="/projeto/:id" element={<ProjectDetailPage />} />
+        </Routes>
+      </AnimatePresence>
 
       <Footer />
     </>

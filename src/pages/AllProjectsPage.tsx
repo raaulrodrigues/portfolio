@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
 import sanityClient from '../sanityClient';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import AOS from 'aos';
@@ -13,6 +14,12 @@ interface SanityProjectShallow {
   imageUrl: string;
   order: number;
 }
+
+const pageVariants = {
+  initial: { opacity: 0, x: "-100vw" },
+  in: { opacity: 1, x: 0 },
+  out: { opacity: 0, x: "100vw" }
+};
 
 const AllProjectsPage = () => {
   const navigate = useNavigate();
@@ -35,14 +42,22 @@ const AllProjectsPage = () => {
         setProjects(data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error("Erro ao buscar todos os projetos:", error);
         setLoading(false);
       });
   }, []);
 
   return (
-    <section id="all-projects" className={styles.page}>
+    <motion.section
+      id="all-projects"
+      className={styles.page}
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={{ type: "tween", ease: "anticipate", duration: 0.5 }}
+    >
       <Helmet>
         <title>Projetos | Raul Martins Rodrigues</title>
         <meta name="description" content="Explore todos os projetos desenvolvidos por Raul Martins Rodrigues, incluindo aplicações web, ferramentas e mais." />
@@ -61,7 +76,7 @@ const AllProjectsPage = () => {
             {projects.map((project, index) => (
               <div className={styles.card} key={project._id} data-aos="fade-up" data-aos-delay={`${index * 100}`}>
                 <div className={styles.image}>
-                   <img src={project.imageUrl} alt={`Imagem do Projeto ${project.title}`} loading="lazy" />
+                  <img src={project.imageUrl} alt={`Imagem do Projeto ${project.title}`} loading="lazy" />
                 </div>
                 <div className={styles.content}>
                   <h3>{project.title}</h3>
@@ -77,7 +92,7 @@ const AllProjectsPage = () => {
           </div>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 };
 

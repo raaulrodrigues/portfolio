@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
 import sanityClient from '../sanityClient';
 import { GitHub, ExternalLink, ArrowLeft } from 'react-feather';
 import styles from './ProjectDetailPage.module.css';
@@ -15,6 +16,12 @@ interface SanityProjectFull {
   liveUrl?: string;
   repoUrl: string;
 }
+
+const pageVariants = {
+  initial: { opacity: 0, y: "100vh" },
+  in: { opacity: 1, y: 0 },
+  out: { opacity: 0, y: "-100vh" }
+};
 
 const ProjectDetailPage = () => {
   const { id } = useParams<{ id: string }>(); 
@@ -51,7 +58,7 @@ const ProjectDetailPage = () => {
         }
         setLoading(false);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.error("Erro ao buscar detalhes do projeto:", err);
         setError("Erro ao carregar o projeto.");
         setLoading(false);
@@ -59,29 +66,40 @@ const ProjectDetailPage = () => {
   }, [id]); 
 
   if (loading) {
-    return <section className={`${styles.page} container-wide`}><p>Carregando...</p></section>;
+    return <motion.section className={`${styles.page} container-wide`}><p>Carregando...</p></motion.section>;
   }
 
   if (error) {
     return (
-      <section className={`${styles.page} container-wide`}>
-         <Helmet>
+      <motion.section 
+         className={`${styles.page} container-wide`}
+         initial="initial" animate="in" exit="out" variants={pageVariants} 
+         transition={{ type: "tween", ease: "anticipate", duration: 0.5 }}
+      >
+        <Helmet>
             <title>Erro | Raul Martins Rodrigues</title>
-         </Helmet>
-         <button onClick={() => navigate('/projetos')} className={styles.btnBack}>
+        </Helmet>
+        <button onClick={() => navigate('/projetos')} className={styles.btnBack}>
           <ArrowLeft size={20} /> Voltar
         </button>
         <p>{error}</p>
-      </section>
+      </motion.section>
     );
   }
 
   if (!project) { 
-     return <section className={`${styles.page} container-wide`}><p>Projeto não encontrado.</p></section>;
+    return <motion.section className={`${styles.page} container-wide`}><p>Projeto não encontrado.</p></motion.section>;
   }
 
   return (
-    <section className={`${styles.page} container-wide`}>
+    <motion.section 
+      className={`${styles.page} container-wide`}
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={{ type: "tween", ease: "anticipate", duration: 0.5 }}
+    >
       <Helmet>
         <title>{project.title} | Raul Martins Rodrigues</title>
         <meta name="description" content={project.shortDescription} />
@@ -94,7 +112,7 @@ const ProjectDetailPage = () => {
       <h1>{project.title}</h1>
       
       <div className={styles.imageContainer}>
-         <img src={project.imageUrl} alt={`Imagem ${project.title}`} />
+        <img src={project.imageUrl} alt={`Imagem ${project.title}`} />
       </div>
 
       <div className={styles.content}>
@@ -120,7 +138,7 @@ const ProjectDetailPage = () => {
           )}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
